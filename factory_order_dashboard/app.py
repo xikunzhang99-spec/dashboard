@@ -51,9 +51,18 @@ st.markdown('<div class="dashboard-subtitle">订单交付 · 生产进度 · 质
 
 @st.cache_data
 def load_data():
-    order_df = pd.read_csv("data/order_info.csv")
-    production_df = pd.read_csv("data/production.csv")
-    quality_df = pd.read_csv("data/quality.csv")
+    from pathlib import Path
+
+    # 获取当前 app.py 所在目录
+    BASE_DIR = Path(__file__).resolve().parent
+
+    # data 文件夹路径
+    DATA_DIR = BASE_DIR / "data"
+
+     # 读取数据（兼容本地 + 云端）
+    order_df = pd.read_csv(DATA_DIR / "order_info.csv")
+    production_df = pd.read_csv(DATA_DIR / "production.csv")
+    quality_df = pd.read_csv(DATA_DIR / "quality.csv")
 
     order_df["order_date"] = pd.to_datetime(order_df["order_date"])
     order_df["delivery_date"] = pd.to_datetime(order_df["delivery_date"])
